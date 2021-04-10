@@ -1,0 +1,24 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    username: root
+    password: bili3.14159
+    url: jdbc:mysql://49.234.77.189/bilibili?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+#showSql
+logging:
+  level:
+    org.lanqiao.dao: debug

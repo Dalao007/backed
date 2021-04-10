@@ -1,0 +1,222 @@
+<html>
+
+<head>
+    <title>ik视频弹幕网后台管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="lib/elementui/theme-chalk/index.css" type="text/css">
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        /* 所有 */
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 头 */
+        .header {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 60px;
+            background-color: #24292e;
+            text-align: center;
+        }
+
+        .header div {
+            display: inline;
+        }
+
+        .title {
+        }
+
+        .author {
+            float: right;
+        }
+
+        .author-img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .author-github {
+            cursor: pointer;
+        }
+
+        /* 内容区 */
+        .container {
+            min-height: 600px;
+            width: 100%;
+            height: 100%
+        }
+
+        /* 左边内容区 */
+        .left {
+            color: #4b595f;
+            width: 200px;
+        }
+
+        .left .totalUl {
+            height: 93%;
+        }
+
+        /* 右边内容区 */
+        .right {
+            min-width: 200px;
+        }
+
+        tbody {
+            font-size: 15px;
+            color: #4b595f;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container class="container">
+        <el-header class="header">
+            <div class="title">
+                <span>ik视频弹幕网后台管理</span>
+            </div>
+            <div class="author">
+                <i class="el-icon-location-outline author-github">管理员</i>
+                <img title="gitHub 主页" alt="@yuleGH" class="author-img author-github"
+                     src="https://avatars2.githubusercontent.com/u/31040588?s=40&amp;v=4">
+            </div>
+        </el-header>
+
+        <el-container>
+            <el-aside class="left">
+                <el-menu :default-active="activeIndex" class="totalUl">
+                    <el-menu-item index="1" @click="open(aboutMeUrl)"><i class="el-icon-service"></i>用户管理</el-menu-item>
+                    <el-submenu :index="firstMenu.id" v-for="firstMenu in menus" :key="firstMenu.id">
+                        <template slot="title"><i :class="firstMenu.iconClass"></i>{{ firstMenu.name }}</template>
+                        <el-menu-item-group v-for="secondMenu in firstMenu.children" :key="secondMenu.id">
+                            <template slot="title">{{ secondMenu.name }}</template>
+                            <el-menu-item v-for="thirdMenu in secondMenu.children" :index="thirdMenu.id"
+                                          :key="thirdMenu.id" @click="open(thirdMenu.url)">{{ thirdMenu.name }}
+                            </el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+
+            <el-main class="right">
+                <iframe style="width:100%; height:100%; border: 0;" :src="iframeUrl"></iframe>
+            </el-main>
+
+        </el-container>
+    </el-container>
+</div>
+<!-- 引入组件库 -->
+<script type="text/javascript" src="lib/vue.js"></script>
+<script type="text/javascript" src="lib/elementui/index.js"></script>
+
+<script type="text/javascript">
+    new Vue({
+        el: "#app",
+        data: {
+            activeIndex: "1",
+            aboutMeUrl: "dynamicTable.html",
+            iframeUrl: "dynamicTable.html",
+
+            menus: [
+
+                {
+                    name: "视频管理",
+                    id: "form",
+                    iconClass: "el-icon-edit-outline",
+                    children: [
+                        {
+                            id: "视频列表",
+                            children: [
+                                {name: "视频列表", id: "input-demo1", url: "videoTable.html"}
+                            ]
+                        },
+                        {
+                            id: "上传视频",
+                            children: [
+                                {name: "上传视频", id: "validateRules-demo", url: "upVideo.html"}
+                            ]
+                        }
+                    ]
+                },
+
+                {
+                    name: "番剧管理",
+                    id: "form1",
+                    iconClass: "el-icon-edit-outline",
+                    children: [
+                        {
+                            id: "番剧列表",
+                            children: [
+                                {name: "番剧列表", id: "input-demo2", url: "fanTable.html"}
+                            ]
+                        },{
+                            id: "剧集列表",
+                            children: [
+                                {name: "剧集列表", id: "input-demo3", url: "fanseriesTable.html"}
+                            ]
+                        },
+                        {
+                            id: "上传番剧",
+                            children: [
+                                {name: "上传番剧", id: "validateRules-demo", url: "upFan.html"}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "直播管理",
+                    id: "form2",
+                    iconClass: "el-icon-edit-outline",
+                    children: [
+                        {
+                            id: "直播列表",
+                            children: [
+                                {name: "直播列表", id: "input-demo4", url: "liveTable.html"}
+                            ]
+                        },
+                    ]
+                },
+
+                {
+                    name: "Table",
+                    id: "Table",
+                    iconClass: "el-icon-tickets",
+                    children: [
+                        {
+                            name: "自定义列模板",
+                            id: "ZDYLMB",
+                            children: [
+                                {name: "全部都是自定义列", id: "zdylmb-demo1", url: "table/defineTemplateSelf.html"},
+                                {name: "自定义表头", id: "custom-table-header", url: "table/customTableHeader.html"},
+                                {name: "将列封装为组件", id: "component-demo1", url: "table/componentTable.html"},
+                                {name: "动态渲染整个表格", id: "dynamic-table", url: "table/dynamicTable.html"}
+                            ]
+                        },
+                        {
+                            name: "多选表格",
+                            id: "DXBG",
+                            children: [
+                                {name: "反正官网上没有这个demo", id: "DXBG-demo1", url: "table/checkbox1.html"}
+                            ]
+                        }
+                    ]
+                },
+
+            ]
+        },
+        methods: {
+            open(url){
+                this.iframeUrl = url;
+            },
+        }
+    });
+</script>
+
+</body>
+
+</html>

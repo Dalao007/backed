@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>动态渲染整个表格</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="lib/elementui/theme-chalk/index.css" type="text/css">
+</head>
+<body>
+<div id="app">
+    <el-button type="primary" onclick="sendToUser()" >主要按钮</el-button>
+</div>
+<!-- 引入组件库 -->
+<script type="text/javascript" src="lib/vue.js"></script>
+<script type="text/javascript" src="lib/elementui/index.js"></script>
+<script type="text/javascript" src="lib/axios.min.js"></script>
+<!--表格组件，需要分页-->
+<div id="tableComponentApp">
+</div>
+<script type="text/javascript">
+    new Vue().$mount('#app')
+</script>
+<script>
+    function sendToUser() { //在这里进行ajax 文件上传 用户的信息
+        // var $file1 = $("input[name='fileName1']").val();//用户文件内容(文件)
+        var type = "file";
+        var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+        formData.append(type, $("#fileName2")[0].files[0]);
+        formData.append("text",$("#fanTitle"));
+        $.ajax({
+            type: "post",
+            url: "/tFan/upFan",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data == "error") {
+                    alert("视频提交失败!");
+                } else {
+                    $("input[name='userUrl']").val(data);
+                    alert("视频上传成功!");
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+
+</html>

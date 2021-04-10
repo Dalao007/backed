@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>用户文件列表</title>
+    <script src="lib/jquery.js"></script>
+</head>
+<hr>
+<h3>番剧上传</h3>
+<a>剧名</a>
+<input type="text" name="fanTitle" id="fanTitle">
+<br><br>
+<a>封面</a>
+<input type="file" value="选择封面" name="fileName2" id="fileName2"/>
+<br><br>
+<input type="button" onclick="sendToUser()" value="提交"/>
+<hr>
+<h3>剧集上传</h3>
+<a>番剧编号</a>
+<input type="text" name="fanNo" id="fanNo">
+<br><br>
+<a>第几集</a>
+<input type="text" name="seriesNum" id="seriesNum">
+<br><br>
+<a>封面</a>
+<input type="file" name="seriesPic" id="seriesPic"/>
+<br><br>
+<a>视频</a>
+<input type="file" name="seriesVideo" id="seriesVideo"/>
+<br><br>
+<input type="button" onclick="biu()" value="提交"/>
+</body>
+<script>
+    function biu() { //在这里进行ajax 文件上传 用户的信息
+        var type = "file";
+        var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+        formData.append(type, $("#seriesPic")[0].files[0]);
+        formData.append(type, $("#seriesVideo")[0].files[0]);
+        formData.append("fanNo",$("#fanNo").val());
+        formData.append("seriesNum",$("#seriesNum").val());
+        $.ajax({
+            type: "post",
+            url: "/upFanSeries",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (callback) {
+                if (callback === "success") {
+                    alert("视频提交成功!");
+                } else {
+                    alert("视频上传失败!");
+                }
+            }
+        });
+    }
+    function sendToUser() { //在这里进行ajax 文件上传 用户的信息
+        // var $file1 = $("input[name='fileName1']").val();//用户文件内容(文件)
+        var type = "file";
+        var formData = new FormData();//这里需要实例化一个FormData来进行文件上传
+        formData.append(type, $("#fileName2")[0].files[0]);
+        formData.append("fanTitle",$("#fanTitle").val());
+        $.ajax({
+            type: "post",
+            url: "tFan/upFan",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (callback) {
+                if (callback === "success") {
+                    alert("视频提交成功!");
+                } else {
+                    alert("视频上传失败!");
+                }
+            }
+        });
+    }
+
+</script>
+</html>
